@@ -5,7 +5,7 @@ const app = express();
 const PORT = 3000;
 
 app.listen(PORT, ()=>{
-    console.log(`Servisor corriendo en http://localhost:${PORT}`);
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
 // Ruta GET para el home
@@ -24,7 +24,7 @@ app.get('/data', (req,res)=>{
 
 // Ruta GET con parámetro de ruta
 // Solicitud: http://localhost:3008/user/123 
-app.get('/user/:id', (req, res) => {
+app.get('/user/:id/:dni', (req, res) => {
     const userId = req.params.id;
     console.log(`Perfil del usuario con ID: ${userId}`);
     res.send(`Perfil del usuario con ID: ${userId}`);
@@ -43,7 +43,7 @@ app.get('/product/:category/:id', (req, res) => {
 // Solicitud: http://localhost :3000/search?q=javascript
 app.get('/search', (req, res) => {
     const query = req.query.q;
-    res.send(`Resultados de búsqueda para: S${query}`);
+    res.send(`Resultados de búsqueda para: ${query}`);
 });
 
 
