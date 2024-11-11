@@ -12,4 +12,4 @@ const superheroSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now}
 });
 
-export default mongoose.model('SuperHero', superheroSchema);
+export default mongoose.model('Grupo-06', superheroSchema);
