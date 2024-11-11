@@ -7,6 +7,7 @@ export function obtenerSuperheroePorIdController(req, res) {
 
     if(superheroe){
         res.send(renderizarSuperheroe(superheroe));
+        res.status(200);
     } else {
         res.status(404).send({ mensaje: "Superheroe no encontrado"});
     }
@@ -24,6 +25,11 @@ export function buscarSuperheroePorAtributoController(req, res) {
 }
 
 export function buscarSuperheroeMayorDe30Controller(req, res) {
+    console.log("estoy en el controlador mayor a 30");
     const superheroes = buscarSuperheroeMayorDe30();
-    res.send(renderizarListaSuperheroes(superheroes));
+    if(superheroes.lenght > 0){
+        res.send(renderizarListaSuperheroes(superheroes));
+    } else {
+        res.status(404).send({ mensaje: "No se encontraron superheroes con ese atributo"});
+    }
 }
