@@ -15,7 +15,9 @@ export function buscarSuperheroePorAtributo(atributo, valor){
 }
 
 export function buscarSuperheroeMayorDe30(){
+    console.log("Servicio mayor a 30");
     const superheroes = repository.obtenerTodos();
+    console.log(superheroes);
     return superheroes.filter(hero => 
         hero.edad > 30 && hero.planetaOrigen === 'Tierra' && hero.poder.lenght >= 2
     );
