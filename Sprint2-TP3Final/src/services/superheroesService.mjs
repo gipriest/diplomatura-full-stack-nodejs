@@ -2,6 +2,7 @@ import superHeroRepository from '../repositories/SuperHeroRepository.mjs';
 
 export async function obtenerSuperheroePorId(id) {
     console.log("Ejecutando consulta de getbyid service...");
+    console.log(id);
     return await superHeroRepository.obtenerPorId(id);
 }
 
