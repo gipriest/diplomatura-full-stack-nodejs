@@ -9,6 +9,7 @@ mongoose.connect('mongodb+srv://Grupo-06:grupo06@cursadanodejs.ls9ii.mongodb.net
 
 
 const superheroeSchema = new mongoose.Schema({
+    codigo: { type: Number, unique: true },
     nombreSuperHeroe: { type: String, required: true},
     nombreReal: { type: String, required: true},
     edad: { type: Number, min: 0},
@@ -18,6 +19,8 @@ const superheroeSchema = new mongoose.Schema({
     aliados: [String],
     enemigos: [String],
     createdAt: { type: Date, default: Date.now}
+},{
+    collection: 'Grupo-06'
 });
 
 const SuperHero = mongoose.model('Grupo-06', superheroeSchema);
@@ -26,14 +29,15 @@ const SuperHero = mongoose.model('Grupo-06', superheroeSchema);
 //Funcion agregar
 async function insertSuperHero(){
     const hero = new SuperHero({
-        nombreSuperHeroe: 'Spiderman',
-        nombreReal: 'Peter Parker',
-        edad: 25,
-        planetaOrigen: 'Tierra',
-        debilidad: 'Radioactiva',
-        poderes: ['Trepar paredes', 'Sentido aracnido', 'Super fuerza', 'Agilidad'],
-        aliados: ['Ironman'],
-        enemigos: ['Duende Verde']
+        codigo: 10,
+    nombreSuperHeroe: 'Thor',
+    nombreReal: 'Thor Odinson',
+    edad: 1500,
+    planetaOrigen: 'Asgard',
+    debilidad: 'Arrogancia',
+    poderes: ['Manipulación del rayo', 'Super fuerza', 'Vuelo', 'Durabilidad'],
+    aliados: ['Hulk', 'Capitán América'],
+    enemigos: ['Loki']
     });
     await hero.save();
     console.log('Superheroes insertado: ', hero);

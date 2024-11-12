@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 
 const superheroSchema = new mongoose.Schema({
+    codigo: { type: Number, unique: true },
     nombreSuperHeroe: { type: String, required: true},
     nombreReal: { type: String, required: true},
     edad: { type: Number, min: 0},
@@ -10,6 +11,8 @@ const superheroSchema = new mongoose.Schema({
     aliados: [String],
     enemigos: [String],
     createdAt: { type: Date, default: Date.now}
+},{
+    collection: 'Grupo-06'
 });
 
-export default mongoose.model('Grupo-06', superheroSchema);
+export default mongoose.model('Superheroe', superheroSchema);

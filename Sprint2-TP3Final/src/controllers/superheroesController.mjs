@@ -7,24 +7,15 @@ import {
 import { renderizarListaSuperheroes, renderizarSuperheroe } from '../views/responseView.mjs';
 
 
-export async function obtenerSuperheroePorIdController(req, res) {
-    const { id } = req.params;
-    const superheroe = await obtenerSuperheroePorId(id);
-
-    if (superheroe) {
-        res.send(renderizarSuperheroe(superheroe));
-    } else {
-        res.status(404).send({ mensaje: "Superhéroe no encontrado" });
-    }
-}
-
 export async function obtenerTodosLosSuperheroesController(req, res) {
+    console.log("Ejecutando consulta de getall controlador...");
     const superheroes = await obtenerTodosLosSuperheroes();
     res.send(renderizarListaSuperheroes(superheroes));
 }
 
 
 export async function buscarSuperheroesPorAtributoController(req, res) {
+    console.log("Ejecutando consulta de getByAtributo controlador...");
     const { atributo, valor } = req.params;
     const superheroes = await buscarSuperheroesPorAtributo(atributo, valor);
 
@@ -35,7 +26,23 @@ export async function buscarSuperheroesPorAtributoController(req, res) {
     }
 }
 
+
+
+
+export async function obtenerSuperheroePorIdController(req, res) {
+    console.log("Ejecutando consulta de getbyid controlador...");
+    const { codigo } = req.params;
+    const superheroe = await obtenerSuperheroePorId(codigo);
+
+    if (superheroe) {
+        res.send(renderizarSuperheroe(superheroe));
+    } else {
+        res.status(404).send({ mensaje: "Superhéroe no encontrado" });
+    }
+}
+
 export async function obtenerSuperheroesMayoresDe30Controller(req, res) {
+    console.log("Ejecutando consulta de obtenerMayoresDe30 controlador...");
     const superheroes = await obtenerSuperheroesMayoresDe30();
     res.send(renderizarListaSuperheroes(superheroes));
 }

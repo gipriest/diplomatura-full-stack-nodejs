@@ -1,6 +1,7 @@
 import superHeroRepository from '../repositories/SuperHeroRepository.mjs';
 
 export async function obtenerSuperheroePorId(id) {
+    console.log("Ejecutando consulta de getbyid service...");
     return await superHeroRepository.obtenerPorId(id);
 }
 
@@ -13,5 +14,6 @@ export async function buscarSuperheroesPorAtributo(atributo, valor) {
 }
 
 export async function obtenerSuperheroesMayoresDe30() {
+    console.log("Ejecutando consulta de obtenerMayoresDe30 service...");
     return await superHeroRepository.obtenerMayoresDe30();
 }
