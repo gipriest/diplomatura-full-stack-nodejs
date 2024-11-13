@@ -28,9 +28,9 @@ export async function buscarSuperheroesPorAtributoController(req, res) {
 
 export async function obtenerSuperheroePorIdController(req, res) {
     console.log("Ejecutando consulta de getbyid controlador...");
-    const codigo = req.params['id'];
-    console.log(codigo);
-    const superheroe = await obtenerSuperheroePorId(codigo);
+    const id = req.params['id'];
+    console.log(id);
+    const superheroe = await obtenerSuperheroePorId(id);
 
     if (superheroe) {
         res.send(renderizarSuperheroe(superheroe));

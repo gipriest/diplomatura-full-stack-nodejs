@@ -7,8 +7,11 @@ import mongoose from 'mongoose';
 class SuperHeroRepository extends IRepository {
     async obtenerPorId(id) {
         console.log("Ejecutando consulta de getbyid repository...");        
-        const objectId = new mongoose.Types.ObjectId(id);        
-        return await SuperHero.findById(objectId);
+        
+        if (!mongoose.isValidObjectId(id)) {
+            throw new Error("El ID proporcionado no es válido.");
+        }
+        return await SuperHero.findById(id);
     }
 
     async obtenerTodos() {
