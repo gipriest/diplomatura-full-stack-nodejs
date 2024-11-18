@@ -11,6 +11,15 @@ app.use(express.json());
 // Conexión a MongoDB
 connectDB();
 
+// Middleware
+const loggerMiddleware = (req, res, next) => {
+    console.log(`Request received: ${req.method} ${req.url}`);
+    next();
+};
+
+//app.use(loggerMiddleware);
+app.use(express.json());
+
 // Configuración de rutas
 app.use('/api', superHeroRoutes);
 

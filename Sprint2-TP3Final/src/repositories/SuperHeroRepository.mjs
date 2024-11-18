@@ -6,7 +6,6 @@ import mongoose from 'mongoose';
 
 class SuperHeroRepository extends IRepository {
     async obtenerPorId(id) {
-        console.log("Ejecutando consulta de getbyid repository...");        
         
         if (!mongoose.isValidObjectId(id)) {
             throw new Error("El ID proporcionado no es válido.");
@@ -36,7 +35,6 @@ class SuperHeroRepository extends IRepository {
     }
 
     async obtenerMayoresDe30() {
-        console.log("Ejecutando consulta de obtenerMayoresDe30 repository...");
         return await SuperHero.find({
             codigo: { $type: "number" },
             edad: { $gt: 30 },
@@ -44,6 +42,7 @@ class SuperHeroRepository extends IRepository {
             $expr: { $gte: [{ $size: "$poderes" }, 2] }
         });
     }
+
 }
 
 export default new SuperHeroRepository();

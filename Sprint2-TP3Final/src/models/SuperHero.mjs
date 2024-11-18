@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 
 const superheroSchema = new mongoose.Schema({
-    codigo: { type: Number, unique: true },
     nombreSuperHeroe: { type: String, required: true},
     nombreReal: { type: String, required: true},
     edad: { type: Number, min: 0},
@@ -12,7 +11,8 @@ const superheroSchema = new mongoose.Schema({
     enemigos: [String],
     createdAt: { type: Date, default: Date.now}
 },{
-    collection: 'Grupo-06'
+    collection: 'Grupo-06',
+    versionKey: false // Desactiva __v
 });
 
 export default mongoose.model('Superheroe', superheroSchema);

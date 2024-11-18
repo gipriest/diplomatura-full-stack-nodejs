@@ -2,20 +2,22 @@ import {
     buscarSuperheroesPorAtributo,
     obtenerSuperheroePorId,
     obtenerSuperheroesMayoresDe30,
-    obtenerTodosLosSuperheroes
+    obtenerTodosLosSuperheroes,
+    crearSuperheroeService,
+    editarSuperheroeService,
+    eliminarSuperheroePorIdService,
+    eliminarSuperheroePorNombreService
 } from '../services/superheroesService.mjs';
 import { renderizarListaSuperheroes, renderizarSuperheroe } from '../views/responseView.mjs';
 
 
 export async function obtenerTodosLosSuperheroesController(req, res) {
-    console.log("Ejecutando consulta de getall controlador...");
     const superheroes = await obtenerTodosLosSuperheroes();
     res.send(renderizarListaSuperheroes(superheroes));
 }
 
 
 export async function buscarSuperheroesPorAtributoController(req, res) {
-    console.log("Ejecutando consulta de getByAtributo controlador...");
     const { atributo, valor } = req.params;
     const superheroes = await buscarSuperheroesPorAtributo(atributo, valor);
 
@@ -27,9 +29,8 @@ export async function buscarSuperheroesPorAtributoController(req, res) {
 }
 
 export async function obtenerSuperheroePorIdController(req, res) {
-    console.log("Ejecutando consulta de getbyid controlador...");
     const id = req.params['id'];
-    console.log(id);
+    console.log(req.params['id']);
     const superheroe = await obtenerSuperheroePorId(id);
 
     if (superheroe) {
@@ -40,7 +41,65 @@ export async function obtenerSuperheroePorIdController(req, res) {
 }
 
 export async function obtenerSuperheroesMayoresDe30Controller(req, res) {
-    console.log("Ejecutando consulta de obtenerMayoresDe30 controlador...");
     const superheroes = await obtenerSuperheroesMayoresDe30();
     res.send(renderizarListaSuperheroes(superheroes));
+}
+
+export async function crearSuperheroeController(req, res) {
+    try {
+        const heroe = req.body;
+        const nuevoHeroe = await crearSuperheroeService(heroe);
+
+        res.status(201).json({
+            status: 'success',
+            message: 'Superhéroe creado con éxito',
+            data: nuevoHeroe,
+        });
+    } catch (error) {
+        console.error('Error en crearSuperheroeController:', error.message);
+        res.status(500).json({
+            status: 'error',
+            message: 'No se pudo crear el superhéroe',
+        });
+    }
+}
+
+
+
+
+export async function editarSuperheroeController(req,res){
+    
+    try {
+        const superheroeId = req.params['id'];
+        const superheroe = await editarSuperheroeService(superheroeId, req.body);
+        res.status(200).send(renderizarSuperheroe(superheroe));
+    } catch (error) {
+        console.error('Error en el controlador:', error.message);
+        res.status(400).send({ mensaje: "Error al editar superhéroe", error: error.message });
+    }
+}
+
+export async function eliminarSuperheroePorIdController(req,res){
+
+    try {
+        const superheroeId = req.params['id'];
+        const superheroe = await eliminarSuperheroePorIdService(superheroeId);
+        res.status(200).send(renderizarSuperheroe(superheroe));
+    } catch (error) {
+        console.error('Error en el controlador:', error.message);
+        res.status(400).send({ mensaje: "Error al eliminar por id a un superhéroe", error: error.message });
+    }
+
+}
+
+export async function eliminarSuperheroePorNombreController(req,res){
+
+    try {
+        const superheroeNombre = req.params['nombre'];
+        const superheroe = await eliminarSuperheroePorNombreService(superheroeNombre);
+        res.status(200).send(renderizarSuperheroe(superheroe));
+    } catch (error) {
+        console.error('Error en el controlador:', error.message);
+        res.status(400).send({ mensaje: "Error al eliminar por nombre a un superhéroe", error: error.message });
+    }
 }
