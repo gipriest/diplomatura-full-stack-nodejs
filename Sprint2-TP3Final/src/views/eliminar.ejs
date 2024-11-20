@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar superheroe</title>
+</head>
+<body>
+    <%- include('partials/header.ejs') -%>
+
+    <p>¿Desea eliminar a <%= superheroe.nombreSuperHeroe %>?</p>
+    <a href="/heroes/sieliminar">SI</a>
+
+    <form action="/api/heroes" method="DELETE">
+        <<p>¿Desea eliminar a <%= superheroe.nombreSuperHeroe %>?</p>
+
+        <button type="submit">Si, Eliminar</button>
+    </form>
+    
+</body>
+</html>

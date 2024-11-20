@@ -19,6 +19,11 @@ const loggerMiddleware = (req, res, next) => {
 
 //app.use(loggerMiddleware);
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Esto permite procesar datos enviados en el cuerpo de formularios
+
+
+// EJS
+app.set('view engine', 'ejs');
 
 // Configuración de rutas
 app.use('/api', superHeroRoutes);

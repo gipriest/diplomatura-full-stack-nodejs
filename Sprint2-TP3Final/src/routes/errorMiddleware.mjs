@@ -3,14 +3,25 @@ import { validationResult } from 'express-validator';
 export const handleValidationErrors = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({
-            status: 'error',
-            message: 'Validation failed',
-            errors: errors.array().map(error => ({
-                field: error.param,
-                message: error.msg,
-            }))
+        const errorMessages = errors.array().map(error => error.msg);
+        return res.status(400).render('agregar', {
+            errors: errorMessages,
+            superheroe: req.body, // Mantiene los datos del formulario
         });
+    }
+    next();
+};
+
+
+export const processFormData = (req, res, next) => {
+    if (req.body.poderes) {
+        req.body.poderes = req.body.poderes.split(',').map(p => p.trim());
+    }
+    if (req.body.aliados) {
+        req.body.aliados = req.body.aliados.split(',').map(a => a.trim());
+    }
+    if (req.body.enemigos) {
+        req.body.enemigos = req.body.enemigos.split(',').map(e => e.trim());
     }
     next();
 };

@@ -12,8 +12,25 @@ import { renderizarListaSuperheroes, renderizarSuperheroe } from '../views/respo
 
 
 export async function obtenerTodosLosSuperheroesController(req, res) {
-    const superheroes = await obtenerTodosLosSuperheroes();
-    res.send(renderizarListaSuperheroes(superheroes));
+    try {
+        const superheroes = await obtenerTodosLosSuperheroes();
+
+        if (superheroes.length > 0) {
+            // Verifica si la solicitud es para HTML o JSON
+            if (req.headers.accept && req.headers.accept.includes('text/html')) {
+                // Renderizar vista HTML
+                res.render('dashboard', { superheroes });
+            } else {
+                // Enviar respuesta JSON
+                res.json(renderizarListaSuperheroes(superheroes));
+            }
+        } else {
+            res.status(404).json({ mensaje: "No se encontraron superhéroes" });
+        }
+    } catch (error) {
+        console.error('Error al obtener todos los superhéroes:', error.message);
+        res.status(500).json({ mensaje: 'Error al obtener superhéroes', error: error.message });
+    }
 }
 
 
@@ -29,15 +46,28 @@ export async function buscarSuperheroesPorAtributoController(req, res) {
 }
 
 export async function obtenerSuperheroePorIdController(req, res) {
-    const id = req.params['id'];
-    console.log(req.params['id']);
-    const superheroe = await obtenerSuperheroePorId(id);
+    try {
+        const id = req.params['id'];
+        console.log(req.params['id']);
 
-    if (superheroe) {
-        res.send(renderizarSuperheroe(superheroe));
-    } else {
-        res.status(404).send({ mensaje: "Superhéroe no encontrado" });
+        const superheroe = await obtenerSuperheroePorId(id);
+
+        if (superheroe) {
+            if (req.headers.accept && req.headers.accept.includes('text/html')) {
+                // Renderizar vista HTML
+                res.render('superheroe', { superheroe });
+            } else {
+                // Enviar respuesta JSON
+                res.json(renderizarSuperheroe(superheroe));
+            }
+        } else {
+            res.status(404).send({ mensaje: "Superhéroe no encontrado" });
+        }
+    } catch (error) {
+        console.error('Error al obtener todos los superhéroes:', error.message);
+        res.status(500).json({ mensaje: 'Error al obtener superhéroes', error: error.message });
     }
+    
 }
 
 export async function obtenerSuperheroesMayoresDe30Controller(req, res) {
@@ -50,11 +80,19 @@ export async function crearSuperheroeController(req, res) {
         const heroe = req.body;
         const nuevoHeroe = await crearSuperheroeService(heroe);
 
-        res.status(201).json({
-            status: 'success',
-            message: 'Superhéroe creado con éxito',
-            data: nuevoHeroe,
-        });
+        if (nuevoHeroe) {
+            if (req.headers.accept && req.headers.accept.includes('text/html')) {
+                res.render('nuevoSuperheroe', { nuevoHeroe });
+            } else {
+                res.status(201).json({
+                    status: 'success',
+                    message: 'Superhéroe creado con éxito',
+                    data: nuevoHeroe,
+                });            }
+        } else {
+            res.status(404).send({ mensaje: "Superhéroe no encontrado" });
+        }
+        
     } catch (error) {
         console.error('Error en crearSuperheroeController:', error.message);
         res.status(500).json({
