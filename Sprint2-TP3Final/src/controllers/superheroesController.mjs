@@ -88,7 +88,8 @@ export async function crearSuperheroeController(req, res) {
                     status: 'success',
                     message: 'Superhéroe creado con éxito',
                     data: nuevoHeroe,
-                });            }
+                });           
+            }
         } else {
             res.status(404).send({ mensaje: "Superhéroe no encontrado" });
         }
@@ -110,7 +111,18 @@ export async function editarSuperheroeController(req,res){
     try {
         const superheroeId = req.params['id'];
         const superheroe = await editarSuperheroeService(superheroeId, req.body);
-        res.status(200).send(renderizarSuperheroe(superheroe));
+
+        if (superheroe) {
+            if (req.headers.accept && req.headers.accept.includes('text/html')) {
+                res.status(200);
+                res.redirect(`/api/heroes/${superheroe.id}`);
+            } else {
+                res.status(200).send(renderizarSuperheroe(superheroe));    
+            }       
+        } else {
+            res.status(404).send({ mensaje: "Superhéroe no encontrado" });
+        }
+
     } catch (error) {
         console.error('Error en el controlador:', error.message);
         res.status(400).send({ mensaje: "Error al editar superhéroe", error: error.message });
@@ -122,7 +134,18 @@ export async function eliminarSuperheroePorIdController(req,res){
     try {
         const superheroeId = req.params['id'];
         const superheroe = await eliminarSuperheroePorIdService(superheroeId);
-        res.status(200).send(renderizarSuperheroe(superheroe));
+
+        if (superheroe) {
+            if (req.headers.accept && req.headers.accept.includes('text/html')) {
+                res.status(200);
+                res.redirect(`/api/heroes`);
+            } else {
+                res.status(200).send(renderizarSuperheroe(superheroe));    
+            }  
+        } else {
+            res.status(404).send({ mensaje: "Superhéroe no encontrado" });
+        }
+        
     } catch (error) {
         console.error('Error en el controlador:', error.message);
         res.status(400).send({ mensaje: "Error al eliminar por id a un superhéroe", error: error.message });

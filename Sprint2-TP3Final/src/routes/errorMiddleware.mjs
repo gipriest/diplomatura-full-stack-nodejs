@@ -14,14 +14,17 @@ export const handleValidationErrors = (req, res, next) => {
 
 
 export const processFormData = (req, res, next) => {
-    if (req.body.poderes) {
-        req.body.poderes = req.body.poderes.split(',').map(p => p.trim());
-    }
-    if (req.body.aliados) {
-        req.body.aliados = req.body.aliados.split(',').map(a => a.trim());
-    }
-    if (req.body.enemigos) {
-        req.body.enemigos = req.body.enemigos.split(',').map(e => e.trim());
+    // Verifica si el encabezado Content-Type indica que proviene de un formulario HTML
+    if (req.headers['content-type'] && req.headers['content-type'].includes('application/x-www-form-urlencoded')) {
+        if (req.body.poderes) {
+            req.body.poderes = req.body.poderes.split(',').map(p => p.trim());
+        }
+        if (req.body.aliados) {
+            req.body.aliados = req.body.aliados.split(',').map(a => a.trim());
+        }
+        if (req.body.enemigos) {
+            req.body.enemigos = req.body.enemigos.split(',').map(e => e.trim());
+        }
     }
     next();
 };

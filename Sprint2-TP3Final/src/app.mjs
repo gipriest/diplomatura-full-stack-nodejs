@@ -1,6 +1,8 @@
 import express from 'express';
 import { connectDB } from './config/dbConfig.mjs';
 import superHeroRoutes from './routes/superHeroRoutes.mjs';
+import methodOverride from 'method-override';
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,6 +22,11 @@ const loggerMiddleware = (req, res, next) => {
 //app.use(loggerMiddleware);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Esto permite procesar datos enviados en el cuerpo de formularios
+
+
+
+// Middleware para soportar métodos como DELETE y PUT
+app.use(methodOverride('_method'));
 
 
 // EJS
